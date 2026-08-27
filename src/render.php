@@ -51,6 +51,27 @@ $kf_position = '' === $kf_position ? '0' : $kf_position;
 
 $kf_style = '--kf-ba-pos:' . $kf_position . '%;';
 
+/*
+ * Focal point for the after image, which is the one object-fit crops. Both
+ * values are numeric and clamped, so nothing can travel into the style
+ * attribute that is not a percentage.
+ */
+$kf_focal   = isset( $attributes['afterFocalPoint'] ) && is_array( $attributes['afterFocalPoint'] )
+	? $attributes['afterFocalPoint']
+	: array();
+$kf_focal_x = isset( $kf_focal['x'] ) ? (float) $kf_focal['x'] : 0.5;
+$kf_focal_y = isset( $kf_focal['y'] ) ? (float) $kf_focal['y'] : 0.5;
+$kf_focal_x = max( 0.0, min( 1.0, $kf_focal_x ) ) * 100;
+$kf_focal_y = max( 0.0, min( 1.0, $kf_focal_y ) ) * 100;
+
+if ( 50.0 !== $kf_focal_x || 50.0 !== $kf_focal_y ) {
+	$kf_style .= sprintf(
+		'--kf-ba-after-pos:%s%% %s%%;',
+		rtrim( rtrim( number_format( $kf_focal_x, 2, '.', '' ), '0' ), '.' ),
+		rtrim( rtrim( number_format( $kf_focal_y, 2, '.', '' ), '0' ), '.' )
+	);
+}
+
 $kf_handle_color = isset( $attributes['handleColor'] ) ? trim( (string) $attributes['handleColor'] ) : '';
 
 /*

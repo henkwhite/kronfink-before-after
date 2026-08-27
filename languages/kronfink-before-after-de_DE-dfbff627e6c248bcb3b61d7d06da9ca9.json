@@ -43,6 +43,12 @@
             "After image alt text": [
                 "Alt-Text des Nachher-Bildes"
             ],
+            "Visible section of the after image": [
+                "Sichtbarer Ausschnitt des Nachher-Bildes"
+            ],
+            "Decides which part stays in view when the after image is cropped to the before image.": [
+                "Legt fest, welcher Teil sichtbar bleibt, wenn das Nachher-Bild auf das Vorher-Bild zugeschnitten wird."
+            ],
             "Colour": [
                 "Farbe"
             ],

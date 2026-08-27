@@ -4,7 +4,7 @@ Tags: before after, image comparison, slider, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,13 @@ es gibt nie die Meldung "Dieser Block enthaelt unerwarteten Inhalt". Nach dem Re
 ist alles wieder da.
 
 == Changelog ==
+
+= 1.1.0 =
+* Neu: Sichtbarer Ausschnitt des Nachher-Bildes einstellbar, wenn es zugeschnitten wird.
+* Behoben: Wischen funktionierte in mobilem Safari nicht. Die Zeigersteuerung laeuft
+  jetzt nicht mehr ueber das Range-Element, weil iOS Safari es nur am Griff zieht --
+  und der muss null Pixel breit bleiben, damit der Trenner unter dem Finger sitzt.
+* Vertikales Scrollen ueber dem Bild verschiebt den Trenner nicht mehr.
 
 = 1.0.1 =
 * Plugin liegt jetzt in der Wurzel des Repositories.

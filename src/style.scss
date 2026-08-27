@@ -15,6 +15,9 @@
 	position: relative;
 	overflow: hidden;
 	line-height: 0;
+	cursor: ew-resize;
+	/* Horizontal gestures belong to the slider, vertical ones stay page scrolling. */
+	touch-action: pan-y;
 }
 
 /* The before image sits in normal flow and therefore dictates the aspect ratio. */
@@ -40,6 +43,7 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	object-position: var(--kf-ba-after-pos, 50% 50%);
 }
 
 .wp-block-kronfink-before-after .kf-ba__label {
@@ -114,6 +118,13 @@
 
 /* The control itself: a native range input, made fully transparent rather than
    opacity:0, so that a real focus ring can still be painted on it. */
+/*
+ * The range is the keyboard and screen reader control only. Pointer input is
+ * handled in JavaScript on the frame instead: iOS Safari drags a range solely
+ * from its thumb, and the thumb has to stay zero-width so the divider lands
+ * exactly under the pointer. Those two cannot both be true, so the pointer
+ * work happens outside the element.
+ */
 .wp-block-kronfink-before-after .kf-ba__range {
 	position: absolute;
 	inset: 0;
@@ -124,7 +135,7 @@
 	padding: 0;
 	border: 0;
 	background: transparent;
-	cursor: ew-resize;
+	pointer-events: none;
 	-webkit-appearance: none;
 	appearance: none;
 }

@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "kronfink/before-after",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "title": "Before / After",
   "category": "media",
   "icon": "image-flip-horizontal",
@@ -56,6 +56,13 @@
     "afterLabel": {
       "type": "string",
       "default": ""
+    },
+    "afterFocalPoint": {
+      "type": "object",
+      "default": {
+        "x": 0.5,
+        "y": 0.5
+      }
     },
     "startPosition": {
       "type": "number",

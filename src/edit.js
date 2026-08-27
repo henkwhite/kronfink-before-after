@@ -8,10 +8,16 @@ import {
 	RichText,
 	useBlockProps,
 } from '@wordpress/block-editor';
-import { Notice, PanelBody, RangeControl, TextControl } from '@wordpress/components';
+import {
+	FocalPointPicker,
+	Notice,
+	PanelBody,
+	RangeControl,
+	TextControl,
+} from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 
 import './editor.scss';
 
@@ -55,6 +61,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		afterUrl,
 		afterAlt,
 		afterLabel,
+		afterFocalPoint,
 		startPosition,
 		handleColor,
 	} = attributes;
@@ -83,6 +90,9 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 			? undefined
 			: {
 					'--kf-ba-pos': `${ previewPosition }%`,
+					'--kf-ba-after-pos': `${ ( afterFocalPoint?.x ?? 0.5 ) * 100 }% ${
+						( afterFocalPoint?.y ?? 0.5 ) * 100
+					}%`,
 					...( handleColor ? { '--kf-ba-handle': handleColor } : {} ),
 			  },
 	} );
@@ -92,6 +102,74 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 
 	const onSelectAfter = ( media ) =>
 		setAttributes( { afterId: media?.id ?? 0, afterUrl: media?.url ?? '' } );
+
+	// Pointer handling mirrors view.js: the range cannot serve as the drag
+	// target, because iOS Safari only drags it from its thumb and the thumb has
+	// to stay zero-width for the divider to track the pointer exactly.
+	const frameRef = useRef( null );
+	const activePointer = useRef( null );
+
+	const positionFromEvent = ( event ) => {
+		const rect = frameRef.current?.getBoundingClientRect();
+
+		if ( ! rect?.width ) {
+			return null;
+		}
+
+		return Math.min(
+			100,
+			Math.max( 0, ( ( event.clientX - rect.left ) / rect.width ) * 100 )
+		);
+	};
+
+	const onPointerDown = ( event ) => {
+		// The labels sit above the frame and stay editable.
+		if ( event.button > 0 || event.target.closest( '.kf-ba__label' ) ) {
+			return;
+		}
+
+		activePointer.current = event.pointerId;
+
+		try {
+			event.currentTarget.setPointerCapture( event.pointerId );
+		} catch ( error ) {
+			// See view.js: capture is an optimisation, not a requirement.
+		}
+
+		if ( 'touch' !== event.pointerType ) {
+			const next = positionFromEvent( event );
+
+			if ( null !== next ) {
+				setPreviewPosition( next );
+			}
+		}
+	};
+
+	const onPointerMove = ( event ) => {
+		if ( event.pointerId !== activePointer.current ) {
+			return;
+		}
+
+		const next = positionFromEvent( event );
+
+		if ( null !== next ) {
+			setPreviewPosition( next );
+		}
+	};
+
+	const onPointerUp = ( event ) => {
+		if ( event.pointerId !== activePointer.current ) {
+			return;
+		}
+
+		try {
+			event.currentTarget.releasePointerCapture( event.pointerId );
+		} catch ( error ) {
+			// Already released.
+		}
+
+		activePointer.current = null;
+	};
 
 	const onRangeKeyDown = ( event ) => {
 		const direction = DIRECTIONS[ event.key ];
@@ -204,6 +282,19 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							__( 'Taken from the media library', 'kronfink-before-after' )
 						}
 					/>
+					<FocalPointPicker
+						__nextHasNoMarginBottom
+						label={ __( 'Visible section of the after image', 'kronfink-before-after' ) }
+						help={ __(
+							'Decides which part stays in view when the after image is cropped to the before image.',
+							'kronfink-before-after'
+						) }
+						url={ afterUrl }
+						value={ afterFocalPoint }
+						onChange={ ( value ) =>
+							setAttributes( { afterFocalPoint: value } )
+						}
+					/>
 				</PanelBody>
 
 				<PanelColorSettings
@@ -221,7 +312,14 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 			</InspectorControls>
 
 			<figure { ...blockProps }>
-				<div className="kf-ba__frame">
+				<div
+					className="kf-ba__frame"
+					ref={ frameRef }
+					onPointerDown={ onPointerDown }
+					onPointerMove={ onPointerMove }
+					onPointerUp={ onPointerUp }
+					onPointerCancel={ onPointerUp }
+				>
 					<img className="kf-ba__img" src={ beforeUrl } alt="" />
 
 					{ ( isSelected || beforeLabel ) && (

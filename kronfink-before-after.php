@@ -1,11 +1,16 @@
 <?php
 /**
  * Plugin Name:       Kronfink Before / After
+ * Plugin URI:        https://github.com/henkwhite/kronfink-before-after
  * Description:       A deliberately simple before/after image comparison block. Two images, one slider, nothing else.
  * Requires at least: 6.5
  * Requires PHP:      7.4
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Kronfink
+ * GitHub Plugin URI: https://github.com/henkwhite/kronfink-before-after
+ * Primary Branch:    master
+ * Release Asset:     true
+ * Update URI:        https://github.com/henkwhite/kronfink-before-after
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       kronfink-before-after

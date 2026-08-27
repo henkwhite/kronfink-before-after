@@ -4,7 +4,7 @@ Tags: before after, image comparison, slider, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,10 @@ es gibt nie die Meldung "Dieser Block enthaelt unerwarteten Inhalt". Nach dem Re
 ist alles wieder da.
 
 == Changelog ==
+
+= 1.0.1 =
+* Plugin liegt jetzt in der Wurzel des Repositories.
+* Header fuer Updates direkt aus dem GitHub-Repository ergaenzt.
 
 = 1.0.0 =
 * Erste Version.

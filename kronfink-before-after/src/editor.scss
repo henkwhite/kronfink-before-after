@@ -1,0 +1,37 @@
+/**
+ * Editor-only additions. Everything visual lives in style.scss so the editor
+ * preview and the front end cannot drift apart.
+ */
+.wp-block-kronfink-before-after.kf-ba--setup {
+	display: grid;
+	/* minmax(0, 1fr) rather than 1fr: a plain 1fr keeps min-width:auto, so a
+	   full-size preview image would push its column past the canvas width. */
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.wp-block-kronfink-before-after.kf-ba--setup .components-placeholder {
+	height: 100%;
+	margin: 0;
+}
+
+/* Keep the thumbnail of an already picked image from dominating the setup step. */
+.wp-block-kronfink-before-after.kf-ba--setup img {
+	display: block;
+	max-width: 100%;
+	max-height: 180px;
+	height: auto;
+	margin: 0 auto;
+	object-fit: contain;
+}
+
+/* The range covers the whole frame, so the labels have to sit above it to stay
+   editable — they are small and in the corners, dragging still works everywhere else. */
+.wp-block-kronfink-before-after .kf-ba__label {
+	z-index: 5;
+	pointer-events: auto;
+}
+
+.wp-block-kronfink-before-after .kf-ba__label[data-rich-text-placeholder]::after {
+	opacity: 0.7;
+}

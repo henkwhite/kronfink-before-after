@@ -1,0 +1,60 @@
+{
+    "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
+    "generator": "WP-CLI\/2.12.0",
+    "source": "build\/index.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "de_DE",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Comparison position between the before and after image": [
+                "Vergleichsposition zwischen Vorher- und Nachher-Bild"
+            ],
+            "Before image": [
+                "Vorher-Bild"
+            ],
+            "After image": [
+                "Nachher-Bild"
+            ],
+            "Replace before": [
+                "Vorher-Bild ersetzen"
+            ],
+            "Replace after": [
+                "Nachher-Bild ersetzen"
+            ],
+            "Comparison": [
+                "Vergleich"
+            ],
+            "The two images have different aspect ratios. The after image is cropped to match the before image.": [
+                "Die beiden Bilder haben unterschiedliche Seitenverh\u00e4ltnisse. Das Nachher-Bild wird auf das Vorher-Bild zugeschnitten."
+            ],
+            "Start position": [
+                "Startposition"
+            ],
+            "Before image alt text": [
+                "Alt-Text des Vorher-Bildes"
+            ],
+            "Taken from the media library": [
+                "Aus der Mediathek \u00fcbernommen"
+            ],
+            "After image alt text": [
+                "Alt-Text des Nachher-Bildes"
+            ],
+            "Colour": [
+                "Farbe"
+            ],
+            "Divider and handle": [
+                "Trenner und Griff"
+            ],
+            "Before": [
+                "Vorher"
+            ],
+            "After": [
+                "Nachher"
+            ]
+        }
+    }
+}

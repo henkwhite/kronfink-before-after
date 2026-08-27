@@ -1,0 +1,27 @@
+{
+  "name": "kronfink-before-after",
+  "version": "1.0.0",
+  "description": "A deliberately simple before/after image comparison block for the WordPress block editor.",
+  "author": "Kronfink",
+  "license": "GPL-2.0-or-later",
+  "private": true,
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "i18n:pot": "wp i18n make-pot . languages/kronfink-before-after.pot --domain=kronfink-before-after --exclude=node_modules,build,vendor",
+    "i18n:mo": "wp i18n make-mo languages languages",
+    "i18n:php": "wp i18n make-php languages languages",
+    "i18n:json": "wp i18n make-json languages --no-purge --pretty-print --use-map='{\"src/index.js\":\"build/index.js\",\"src/edit.js\":\"build/index.js\",\"src/view.js\":\"build/view.js\"}'",
+    "i18n": "npm run i18n:pot && npm run i18n:mo && npm run i18n:php && npm run i18n:json"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^34.2.0"
+  },
+  "files": [
+    "build",
+    "languages",
+    "kronfink-before-after.php",
+    "readme.txt"
+  ]
+}

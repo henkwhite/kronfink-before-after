@@ -1,0 +1,4 @@
+node_modules/
+.DS_Store
+*.log
+kronfink-before-after/kronfink-before-after.zip

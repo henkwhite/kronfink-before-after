@@ -1,0 +1,74 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "kronfink/before-after",
+  "version": "1.0.0",
+  "title": "Before / After",
+  "category": "media",
+  "icon": "image-flip-horizontal",
+  "description": "Compare two images with a slider. Two images, one handle, nothing else.",
+  "keywords": [
+    "before",
+    "after",
+    "compare",
+    "slider"
+  ],
+  "textdomain": "kronfink-before-after",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false,
+    "spacing": {
+      "margin": true
+    }
+  },
+  "attributes": {
+    "beforeId": {
+      "type": "number",
+      "default": 0
+    },
+    "beforeUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "beforeAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "beforeLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "afterId": {
+      "type": "number",
+      "default": 0
+    },
+    "afterUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "afterAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "afterLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "startPosition": {
+      "type": "number",
+      "default": 50
+    },
+    "handleColor": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}

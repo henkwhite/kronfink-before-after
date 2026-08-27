@@ -11,6 +11,10 @@
  * @var array $attributes Block attributes.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $kf_before_id = isset( $attributes['beforeId'] ) ? (int) $attributes['beforeId'] : 0;
 $kf_after_id  = isset( $attributes['afterId'] ) ? (int) $attributes['afterId'] : 0;
 
@@ -47,8 +51,18 @@ $kf_position = '' === $kf_position ? '0' : $kf_position;
 
 $kf_style = '--kf-ba-pos:' . $kf_position . '%;';
 
-$kf_handle_color = isset( $attributes['handleColor'] ) ? (string) $attributes['handleColor'] : '';
-if ( '' !== $kf_handle_color ) {
+$kf_handle_color = isset( $attributes['handleColor'] ) ? trim( (string) $attributes['handleColor'] ) : '';
+
+/*
+ * The value goes into a custom property, and safecss_filter_attr() does not look
+ * inside those — so an unchecked value could smuggle whole CSS declarations into
+ * the style attribute. Only real colour syntax is let through: hex, rgb()/hsl(),
+ * a CSS variable (theme palette colours arrive as var(--wp--preset--color--x))
+ * or a bare keyword such as "transparent". Anything else is dropped.
+ */
+$kf_color_pattern = '/^(#[0-9a-f]{3,8}|(?:rgb|hsl)a?\([0-9a-z.,%\/ -]+\)|var\(\s*--[a-z0-9-]+\s*\)|[a-z]+)$/i';
+
+if ( '' !== $kf_handle_color && preg_match( $kf_color_pattern, $kf_handle_color ) ) {
 	$kf_style .= '--kf-ba-handle:' . $kf_handle_color . ';';
 }
 
@@ -61,13 +75,13 @@ $kf_wrapper_attributes = get_block_wrapper_attributes( array( 'style' => $kf_sty
 	<div class="kf-ba__frame">
 		<?php echo $kf_before_img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by wp_get_attachment_image(). ?>
 		<?php if ( '' !== $kf_before_label ) : ?>
-			<span class="kf-ba__label kf-ba__label--before"><?php echo wp_kses_post( $kf_before_label ); ?></span>
+			<span class="kf-ba__label kf-ba__label--before"><?php echo wp_kses( $kf_before_label, array() ); ?></span>
 		<?php endif; ?>
 
 		<div class="kf-ba__after">
 			<?php echo $kf_after_img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by wp_get_attachment_image(). ?>
 			<?php if ( '' !== $kf_after_label ) : ?>
-				<span class="kf-ba__label kf-ba__label--after"><?php echo wp_kses_post( $kf_after_label ); ?></span>
+				<span class="kf-ba__label kf-ba__label--after"><?php echo wp_kses( $kf_after_label, array() ); ?></span>
 			<?php endif; ?>
 		</div>
 

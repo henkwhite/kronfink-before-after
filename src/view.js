@@ -66,9 +66,12 @@ function initBeforeAfter( block ) {
 		if ( 'touch' !== event.pointerType ) {
 			setFromClientX( event.clientX );
 			event.preventDefault();
-		}
 
-		range.focus( { preventScroll: true } );
+			// Focus only for pointing devices, so arrow keys carry on from where
+			// the click landed. Doing it on touch makes Safari paint the focus
+			// ring after every swipe, which is meant for keyboard users alone.
+			range.focus( { preventScroll: true } );
+		}
 	} );
 
 	frame.addEventListener( 'pointermove', ( event ) => {

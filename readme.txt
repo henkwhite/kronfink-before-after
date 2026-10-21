@@ -4,7 +4,7 @@ Tags: before after, image comparison, slider, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,13 @@ es gibt nie die Meldung "Dieser Block enthaelt unerwarteten Inhalt". Nach dem Re
 ist alles wieder da.
 
 == Changelog ==
+
+= 1.1.1 =
+* Behoben: Ein Ziehen, dessen Loslassen ausserhalb des Bildes landete, konnte beim
+  naechsten Ueberfahren mit der Maus weiterziehen.
+* Behoben: Ein kurz ruhender Finger oeffnete auf iOS das Bildmenue statt zu ziehen.
+* Editor-Vorschau rendert beim Ziehen nicht mehr pro Pixel neu.
+* Build-Werkzeuge: plugin-zip erzwingt jetzt einen frischen Produktions-Build.
 
 = 1.1.0 =
 * Neu: Sichtbarer Ausschnitt des Nachher-Bildes einstellbar, wenn es zugeschnitten wird.

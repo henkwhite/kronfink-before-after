@@ -5,7 +5,7 @@
  * Description:       A deliberately simple before/after image comparison block. Two images, one slider, nothing else.
  * Requires at least: 6.5
  * Requires PHP:      7.4
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            Kronfink
  * GitHub Plugin URI: https://github.com/henkwhite/kronfink-before-after
  * Primary Branch:    master

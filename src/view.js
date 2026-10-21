@@ -7,15 +7,12 @@
  * zero-width so the divider lands exactly under the pointer. Both cannot hold
  * at once, so dragging is done against the frame's own geometry.
  */
-const KEY_STEP = 1;
-const FINE_KEY_STEP = 0.1;
-
-const DIRECTIONS = {
-	ArrowRight: 1,
-	ArrowUp: 1,
-	ArrowLeft: -1,
-	ArrowDown: -1,
-};
+import {
+	lostMouseRelease,
+	keyboardDelta,
+	percentFromClientX,
+	roundPercent,
+} from './slider';
 
 function initBeforeAfter( block ) {
 	const range = block.querySelector( '.kf-ba__range' );
@@ -30,21 +27,33 @@ function initBeforeAfter( block ) {
 	};
 
 	const setPosition = ( value ) => {
-		range.value = Math.min( 100, Math.max( 0, value ) ).toFixed( 1 );
+		range.value = roundPercent( value ).toFixed( 1 );
 		update();
 	};
 
 	const setFromClientX = ( clientX ) => {
-		const rect = frame.getBoundingClientRect();
+		const next = percentFromClientX( frame.getBoundingClientRect(), clientX );
 
-		if ( ! rect.width ) {
-			return;
+		if ( null !== next ) {
+			setPosition( next );
 		}
-
-		setPosition( ( ( clientX - rect.left ) / rect.width ) * 100 );
 	};
 
 	let activePointer = null;
+
+	const endDrag = ( event ) => {
+		if ( event.pointerId !== activePointer ) {
+			return;
+		}
+
+		try {
+			frame.releasePointerCapture( activePointer );
+		} catch ( error ) {
+			// The capture is already gone; nothing left to release.
+		}
+
+		activePointer = null;
+	};
 
 	frame.addEventListener( 'pointerdown', ( event ) => {
 		if ( event.button > 0 ) {
@@ -79,23 +88,15 @@ function initBeforeAfter( block ) {
 			return;
 		}
 
-		setFromClientX( event.clientX );
-		event.preventDefault();
-	} );
-
-	const endDrag = ( event ) => {
-		if ( event.pointerId !== activePointer ) {
+		// A mouse release that happened somewhere we never heard about it.
+		if ( lostMouseRelease( event ) ) {
+			endDrag( event );
 			return;
 		}
 
-		try {
-			frame.releasePointerCapture( activePointer );
-		} catch ( error ) {
-			// The capture is already gone; nothing left to release.
-		}
-
-		activePointer = null;
-	};
+		setFromClientX( event.clientX );
+		event.preventDefault();
+	} );
 
 	frame.addEventListener( 'pointerup', endDrag );
 	frame.addEventListener( 'pointercancel', endDrag );
@@ -103,17 +104,14 @@ function initBeforeAfter( block ) {
 	range.addEventListener( 'input', update );
 
 	range.addEventListener( 'keydown', ( event ) => {
-		const direction = DIRECTIONS[ event.key ];
+		const delta = keyboardDelta( event );
 
-		if ( ! direction || event.altKey || event.ctrlKey || event.metaKey ) {
+		if ( ! delta ) {
 			return;
 		}
 
 		event.preventDefault();
-
-		const step = event.shiftKey ? FINE_KEY_STEP : KEY_STEP;
-
-		setPosition( parseFloat( range.value ) + direction * step );
+		setPosition( parseFloat( range.value ) + delta );
 	} );
 
 	update();

@@ -77,9 +77,15 @@ $kf_handle_color = isset( $attributes['handleColor'] ) ? trim( (string) $attribu
 /*
  * The value goes into a custom property, and safecss_filter_attr() does not look
  * inside those — so an unchecked value could smuggle whole CSS declarations into
- * the style attribute. Only real colour syntax is let through: hex, rgb()/hsl(),
- * a CSS variable (theme palette colours arrive as var(--wp--preset--color--x))
- * or a bare keyword such as "transparent". Anything else is dropped.
+ * the style attribute. Only real colour syntax is let through: hex, a CSS
+ * variable (theme palette colours arrive as var(--wp--preset--color--x)), a bare
+ * keyword such as "transparent", or rgb()/hsl(). Anything else is dropped.
+ *
+ * Note that rgb()/hsl() pass this check but never reach the page: core's
+ * safecss_filter_attr() rejects any declaration using a function other than
+ * var/calc/min/max/minmax/clamp/repeat. The branch is kept so the picker's
+ * output keeps working the day core lifts that limit, but do not enable the
+ * colour picker's alpha channel expecting it to work today.
  */
 $kf_color_pattern = '/^(#[0-9a-f]{3,8}|(?:rgb|hsl)a?\([0-9a-z.,%\/ -]+\)|var\(\s*--[a-z0-9-]+\s*\)|[a-z]+)$/i';
 

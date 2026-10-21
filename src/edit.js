@@ -19,6 +19,13 @@ import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
 
+import {
+	lostMouseRelease,
+	keyboardDelta,
+	percentFromClientX,
+	roundPercent,
+} from './slider';
+
 import './editor.scss';
 
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
@@ -28,14 +35,6 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
  * below that the crop is invisible and a warning would only be noise.
  */
 const RATIO_TOLERANCE = 0.01;
-
-/**
- * The range needs a fine `step` so dragging stays smooth, which would otherwise
- * make each arrow key press move the divider by 0.1%. Mirrors view.js.
- */
-const KEY_STEP = 1;
-const FINE_KEY_STEP = 0.1;
-const DIRECTIONS = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 };
 
 function hasRatioMismatch( before, after ) {
 	const b = before?.media_details;
@@ -108,18 +107,45 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 	// to stay zero-width for the divider to track the pointer exactly.
 	const frameRef = useRef( null );
 	const activePointer = useRef( null );
+	const dragPosition = useRef( null );
 
-	const positionFromEvent = ( event ) => {
-		const rect = frameRef.current?.getBoundingClientRect();
+	// While dragging, the custom property is written straight to the figure and
+	// committed to state once on release. A state update per pointermove would
+	// re-render the whole block, labels included, for every pixel moved.
+	const paintPosition = ( value ) => {
+		dragPosition.current = value;
+		frameRef.current?.parentElement?.style.setProperty(
+			'--kf-ba-pos',
+			`${ value }%`
+		);
+	};
 
-		if ( ! rect?.width ) {
-			return null;
+	const commitPosition = () => {
+		if ( null !== dragPosition.current ) {
+			setPreviewPosition( dragPosition.current );
+			dragPosition.current = null;
+		}
+	};
+
+	const positionFromEvent = ( event ) =>
+		percentFromClientX(
+			frameRef.current?.getBoundingClientRect(),
+			event.clientX
+		);
+
+	const onPointerUp = ( event ) => {
+		if ( event.pointerId !== activePointer.current ) {
+			return;
 		}
 
-		return Math.min(
-			100,
-			Math.max( 0, ( ( event.clientX - rect.left ) / rect.width ) * 100 )
-		);
+		try {
+			event.currentTarget.releasePointerCapture( event.pointerId );
+		} catch ( error ) {
+			// Already released.
+		}
+
+		activePointer.current = null;
+		commitPosition();
 	};
 
 	const onPointerDown = ( event ) => {
@@ -140,7 +166,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 			const next = positionFromEvent( event );
 
 			if ( null !== next ) {
-				setPreviewPosition( next );
+				paintPosition( next );
 			}
 		}
 	};
@@ -150,41 +176,28 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 			return;
 		}
 
-		const next = positionFromEvent( event );
-
-		if ( null !== next ) {
-			setPreviewPosition( next );
-		}
-	};
-
-	const onPointerUp = ( event ) => {
-		if ( event.pointerId !== activePointer.current ) {
+		// A mouse release that happened somewhere we never heard about it.
+		if ( lostMouseRelease( event ) ) {
+			onPointerUp( event );
 			return;
 		}
 
-		try {
-			event.currentTarget.releasePointerCapture( event.pointerId );
-		} catch ( error ) {
-			// Already released.
-		}
+		const next = positionFromEvent( event );
 
-		activePointer.current = null;
+		if ( null !== next ) {
+			paintPosition( next );
+		}
 	};
 
 	const onRangeKeyDown = ( event ) => {
-		const direction = DIRECTIONS[ event.key ];
+		const delta = keyboardDelta( event );
 
-		if ( ! direction || event.altKey || event.ctrlKey || event.metaKey ) {
+		if ( ! delta ) {
 			return;
 		}
 
 		event.preventDefault();
-
-		const step = event.shiftKey ? FINE_KEY_STEP : KEY_STEP;
-
-		setPreviewPosition( ( current ) =>
-			Math.min( 100, Math.max( 0, current + direction * step ) )
-		);
+		setPreviewPosition( ( current ) => roundPercent( current + delta ) );
 	};
 
 	if ( isSetup ) {

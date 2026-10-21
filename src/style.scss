@@ -18,6 +18,12 @@
 	cursor: ew-resize;
 	/* Horizontal gestures belong to the slider, vertical ones stay page scrolling. */
 	touch-action: pan-y;
+	/* A finger resting on the image before it moves must not open iOS's image
+	   callout or start a text selection. The mouse path is covered by
+	   preventDefault in view.js; the touch path deliberately is not, so taps
+	   and scrolls stay native. */
+	-webkit-touch-callout: none;
+	user-select: none;
 }
 
 /* The before image sits in normal flow and therefore dictates the aspect ratio. */
@@ -116,14 +122,13 @@
 	border-left: 7px solid var(--kf-ba-handle);
 }
 
-/* The control itself: a native range input, made fully transparent rather than
-   opacity:0, so that a real focus ring can still be painted on it. */
 /*
  * The range is the keyboard and screen reader control only. Pointer input is
  * handled in JavaScript on the frame instead: iOS Safari drags a range solely
  * from its thumb, and the thumb has to stay zero-width so the divider lands
  * exactly under the pointer. Those two cannot both be true, so the pointer
- * work happens outside the element.
+ * work happens outside the element. It is made transparent rather than
+ * opacity:0 so that a real focus ring can still be painted on it.
  */
 .wp-block-kronfink-before-after .kf-ba__range {
 	position: absolute;

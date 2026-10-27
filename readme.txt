@@ -4,7 +4,7 @@ Tags: before after, image comparison, slider, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,12 @@ Eigenschaften:
 * Startposition, Alt-Texte je Bild, Ausrichtung breit/vollbreit, Farbe des Griffs
 * Bilder ueber wp_get_attachment_image(): srcset, sizes und Lazy Loading kommen von WordPress
 * Rund 0,6 KB JavaScript im Frontend, keine Abhaengigkeiten
+
+== Installation ==
+
+Die ZIP aus dem neuesten GitHub-Release unter Plugins > Installieren > Plugin hochladen
+installieren. Danach kommen Updates automatisch aus den Releases. Nicht den
+Quellcode-Download von GitHub verwenden: Ihm fehlen build/ und vendor/.
 
 == Anpassung per CSS ==
 
@@ -56,6 +62,11 @@ es gibt nie die Meldung "Dieser Block enthaelt unerwarteten Inhalt". Nach dem Re
 ist alles wieder da.
 
 == Changelog ==
+
+= 1.3.0 =
+* Updates kommen jetzt direkt aus den GitHub-Releases (plugin-update-checker). Einmal
+  diese Version per ZIP installieren, danach erscheinen neue Versionen unter Plugins
+  wie gewohnt.
 
 = 1.2.0 =
 * Neuer Griff: runder, weiss gefuellter Knopf mit Rand und Doppelpfeil in Magenta

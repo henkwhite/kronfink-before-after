@@ -5,11 +5,8 @@
  * Description:       A deliberately simple before/after image comparison block. Two images, one slider, nothing else.
  * Requires at least: 6.5
  * Requires PHP:      7.4
- * Version:           1.2.0
+ * Version:           1.3.0
  * Author:            Kronfink
- * GitHub Plugin URI: https://github.com/henkwhite/kronfink-before-after
- * Primary Branch:    master
- * Release Asset:     true
  * Update URI:        https://github.com/henkwhite/kronfink-before-after
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +28,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @see generate_block_asset_handle()
  */
 const EDITOR_SCRIPT_HANDLE = 'kronfink-before-after-editor-script';
+
+define( __NAMESPACE__ . '\PLUGIN_FILE', __FILE__ );
+
+require_once __DIR__ . '/includes/class-updater.php';
+
+// Updates come from the GitHub releases, see includes/class-updater.php.
+Updater::init();
 
 /**
  * Register the block and hook up the editor translations.

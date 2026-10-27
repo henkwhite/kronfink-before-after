@@ -4,3 +4,5 @@ node_modules/
 *.map
 .claude/
 kronfink-before-after*.zip
+vendor/
+dist/

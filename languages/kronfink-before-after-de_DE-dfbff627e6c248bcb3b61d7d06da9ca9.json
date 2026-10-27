@@ -52,14 +52,14 @@
             "Colour": [
                 "Farbe"
             ],
-            "Divider and handle": [
-                "Trenner und Griff"
-            ],
             "Before": [
                 "Vorher"
             ],
             "After": [
                 "Nachher"
+            ],
+            "Handle": [
+                "Griff"
             ]
         }
     }

@@ -3,7 +3,11 @@
  */
 .wp-block-kronfink-before-after {
 	--kf-ba-pos: 50%;
-	--kf-ba-handle: #fff;
+	/* The divider line. */
+	--kf-ba-line: #fff;
+	/* Border and arrows of the round handle; the editor's colour setting writes here. */
+	--kf-ba-handle: #ff0082;
+	--kf-ba-handle-bg: #fff;
 	--kf-ba-line-width: 2px;
 	--kf-ba-handle-size: 40px;
 
@@ -81,10 +85,10 @@
 	z-index: 3;
 	width: var(--kf-ba-line-width);
 	margin-left: calc(var(--kf-ba-line-width) / -2);
-	background: var(--kf-ba-handle);
+	background: var(--kf-ba-line);
 	pointer-events: none;
 	/* Also shadows the handle, which is a child — keeps both readable on light images. */
-	filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.45));
+	filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.35));
 }
 
 .wp-block-kronfink-before-after .kf-ba__handle {
@@ -94,12 +98,14 @@
 	width: var(--kf-ba-handle-size);
 	height: var(--kf-ba-handle-size);
 	transform: translate(-50%, -50%);
+	box-sizing: border-box;
 	border: var(--kf-ba-line-width) solid var(--kf-ba-handle);
 	border-radius: 50%;
-	background: transparent;
+	background: var(--kf-ba-handle-bg);
 }
 
-/* The static double arrow — the only affordance, no animation. */
+/* The static double arrow — the only affordance, no animation. Two solid
+   triangles, drawn from borders so no markup or SVG is needed. */
 .wp-block-kronfink-before-after .kf-ba__handle::before,
 .wp-block-kronfink-before-after .kf-ba__handle::after {
 	content: "";

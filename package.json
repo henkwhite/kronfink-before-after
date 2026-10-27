@@ -1,6 +1,6 @@
 {
   "name": "kronfink-before-after",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A deliberately simple before/after image comparison block for the WordPress block editor.",
   "author": "Kronfink",
   "license": "GPL-2.0-or-later",

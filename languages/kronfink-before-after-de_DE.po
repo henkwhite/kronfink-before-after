@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Kronfink Before / After 1.1.0\n"
+"Project-Id-Version: Kronfink Before / After 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/Kronfink\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,10 +91,6 @@ msgstr "Legt fest, welcher Teil sichtbar bleibt, wenn das Nachher-Bild auf das V
 msgid "Colour"
 msgstr "Farbe"
 
-#: src/edit.js:321
-msgid "Divider and handle"
-msgstr "Trenner und Griff"
-
 #: src/edit.js:346
 msgid "Before"
 msgstr "Vorher"
@@ -132,3 +128,7 @@ msgstr "vergleichen"
 msgctxt "block keyword"
 msgid "slider"
 msgstr "schieberegler"
+
+#: src/edit.js:321
+msgid "Handle"
+msgstr "Griff"

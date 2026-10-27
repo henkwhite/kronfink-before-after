@@ -4,7 +4,7 @@ Tags: before after, image comparison, slider, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Eigenschaften:
 * Bedienung ueber ein natives Schieberegler-Element: ziehen, wischen, klicken, Pfeiltasten,
   Pos1/Ende, Bild-hoch/Bild-runter, Screenreader-Ansage
 * Optionale Beschriftungen, direkt im Bild bearbeitbar
-* Startposition, Alt-Texte je Bild, Ausrichtung breit/vollbreit, Farbe fuer Trenner und Griff
+* Startposition, Alt-Texte je Bild, Ausrichtung breit/vollbreit, Farbe des Griffs
 * Bilder ueber wp_get_attachment_image(): srcset, sizes und Lazy Loading kommen von WordPress
 * Rund 0,6 KB JavaScript im Frontend, keine Abhaengigkeiten
 
@@ -33,7 +33,9 @@ ueberschreiben:
 
 `
 .wp-block-kronfink-before-after {
-	--kf-ba-handle: #ffffff;
+	--kf-ba-line: #ffffff;      /* Trennlinie */
+	--kf-ba-handle: #ff0082;    /* Rand und Pfeile des Griffs */
+	--kf-ba-handle-bg: #ffffff; /* Fuellung des Griffs */
 	--kf-ba-line-width: 2px;
 	--kf-ba-handle-size: 40px;
 }
@@ -54,6 +56,12 @@ es gibt nie die Meldung "Dieser Block enthaelt unerwarteten Inhalt". Nach dem Re
 ist alles wieder da.
 
 == Changelog ==
+
+= 1.2.0 =
+* Neuer Griff: runder, weiss gefuellter Knopf mit Rand und Doppelpfeil in Magenta
+  (Standard #ff0082). Die Trennlinie bleibt weiss.
+* Die Farbeinstellung im Editor faerbt jetzt nur noch den Griff. Trennlinie und
+  Fuellung sind per CSS-Variable (--kf-ba-line, --kf-ba-handle-bg) anpassbar.
 
 = 1.1.1 =
 * Behoben: Ein Ziehen, dessen Loslassen ausserhalb des Bildes landete, konnte beim

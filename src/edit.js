@@ -318,7 +318,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							value: handleColor,
 							onChange: ( value ) =>
 								setAttributes( { handleColor: value || '' } ),
-							label: __( 'Divider and handle', 'kronfink-before-after' ),
+							label: __( 'Handle', 'kronfink-before-after' ),
 						},
 					] }
 				/>

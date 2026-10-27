@@ -68,6 +68,8 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 	// Dragging in the editor is preview only. If it wrote back to startPosition,
 	// merely looking at the block would mark the post as modified.
 	const [ previewPosition, setPreviewPosition ] = useState( startPosition );
+	// Keyboard focus on the range shows the ring on the handle, see style.scss.
+	const [ keyboardFocus, setKeyboardFocus ] = useState( false );
 
 	useEffect( () => {
 		setPreviewPosition( startPosition );
@@ -84,7 +86,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 	const isSetup = ! beforeUrl || ! afterUrl;
 
 	const blockProps = useBlockProps( {
-		className: isSetup ? 'kf-ba--setup' : undefined,
+		className: isSetup ? 'kf-ba--setup' : keyboardFocus ? 'kf-ba--keyboard' : undefined,
 		style: isSetup
 			? undefined
 			: {
@@ -380,6 +382,8 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							setPreviewPosition( parseFloat( event.target.value ) )
 						}
 						onKeyDown={ onRangeKeyDown }
+						onFocus={ () => setKeyboardFocus( true ) }
+						onBlur={ () => setKeyboardFocus( false ) }
 						aria-label={ __(
 							'Comparison position between the before and after image',
 							'kronfink-before-after'

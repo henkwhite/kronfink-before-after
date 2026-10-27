@@ -41,6 +41,10 @@ function initBeforeAfter( block ) {
 
 	let activePointer = null;
 
+	/* Focus that a pointer caused must not show the keyboard ring; see style.scss. */
+	let pointerFocus = false;
+	const KEYBOARD_CLASS = 'kf-ba--keyboard';
+
 	const endDrag = ( event ) => {
 		if ( event.pointerId !== activePointer ) {
 			return;
@@ -79,8 +83,20 @@ function initBeforeAfter( block ) {
 			// Focus only for pointing devices, so arrow keys carry on from where
 			// the click landed. Doing it on touch makes Safari paint the focus
 			// ring after every swipe, which is meant for keyboard users alone.
+			pointerFocus = true;
 			range.focus( { preventScroll: true } );
+			pointerFocus = false;
 		}
+	} );
+
+	range.addEventListener( 'focus', () => {
+		if ( ! pointerFocus ) {
+			block.classList.add( KEYBOARD_CLASS );
+		}
+	} );
+
+	range.addEventListener( 'blur', () => {
+		block.classList.remove( KEYBOARD_CLASS );
 	} );
 
 	frame.addEventListener( 'pointermove', ( event ) => {
@@ -111,6 +127,8 @@ function initBeforeAfter( block ) {
 		}
 
 		event.preventDefault();
+		// Keys after a click: the ring appears once the keyboard takes over.
+		block.classList.add( KEYBOARD_CLASS );
 		setPosition( parseFloat( range.value ) + delta );
 	} );
 

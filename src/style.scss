@@ -184,10 +184,13 @@
 	outline: none;
 }
 
-/* The input itself is transparent, so the ring has to carry its own contrast:
-   a dark inset band underneath the divider-coloured outline works on any image. */
-.wp-block-kronfink-before-after .kf-ba__range:focus-visible {
-	outline: 3px solid var(--kf-ba-handle);
-	outline-offset: -3px;
-	box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.5);
+/* The focus indicator sits on the handle, not around the whole image: a ring in
+   the handle colour, separated from the button by a gap in its fill colour so it
+   reads on any image. The class is set by the scripts for keyboard focus only;
+   a click or tap also focuses the range (so the arrow keys carry on from there)
+   but must not paint a ring. */
+.wp-block-kronfink-before-after.kf-ba--keyboard .kf-ba__handle {
+	box-shadow:
+		0 0 0 3px var(--kf-ba-handle-bg),
+		0 0 0 5px var(--kf-ba-handle);
 }

@@ -4,7 +4,7 @@ Tags: before after, image comparison, slider, block
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,11 @@ es gibt nie die Meldung "Dieser Block enthaelt unerwarteten Inhalt". Nach dem Re
 ist alles wieder da.
 
 == Changelog ==
+
+= 1.3.1 =
+* Behoben: Nach einem Klick ins Bild lag ein magentafarbener Rahmen um das ganze Bild
+  (der Fokusring des Reglers). Der Fokusring liegt jetzt als Ring um den Griff und
+  erscheint nur bei Tastaturbedienung.
 
 = 1.3.0 =
 * Updates kommen jetzt direkt aus den GitHub-Releases (plugin-update-checker). Einmal

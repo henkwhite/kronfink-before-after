@@ -58,6 +58,10 @@ if [ -n "$(git status --porcelain)" ]; then
 	echo "✗ Working tree is not clean — commit first."
 	exit 1
 fi
+if gh release view "$version" --repo "$REPO" >/dev/null 2>&1; then
+	echo "✗ Release $version already exists on github.com/$REPO — bump the version first."
+	exit 1
+fi
 
 echo
 answer="${RELEASE_CONFIRM:-}"
@@ -69,7 +73,8 @@ if [ "$answer" != "j" ]; then
 	exit 0
 fi
 
-git tag "$version"
+# A tag left behind by an earlier, aborted run is reused rather than refused.
+git tag "$version" 2>/dev/null || echo "Tag $version already exists locally, reusing it."
 git push origin master "$version"
 notes=$(awk "/^= $version =/{f=1;next}/^= /{f=0}f" readme.txt)
 gh release create "$version" "dist/$zip_name" --repo "$REPO" --title "$version" --notes "$notes"
